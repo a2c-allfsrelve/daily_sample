@@ -37,7 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'markdownx',
+    'daily'
 ]
+
+REST_FRAMEWORK = { 
+    'DEFAULT_PERMISSION_CLASSES': [ #アクセス権限
+        'rest_framework.permissions.AllowAny', #getメソッドだけだし誰にでもアクセス許可
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
