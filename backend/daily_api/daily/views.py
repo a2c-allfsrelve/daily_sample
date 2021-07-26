@@ -11,19 +11,20 @@ from .models import Daily
 class ListDaily(APIView):
     def get(self, request):
         try:
-            daily = Daily.object.filter(isOpen=True).oder_by('-date') #設定が公開になってるものだけを抽出
+            daily = Daily.objects.filter(isOpen=True).order_by('-date') #設定が公開になってるものだけを抽出
             res_list =[
                 {
                     'id': d.id,
                     'date': d.date,
-                    'evaluation': d.evaluation,
+                    'evaluation': d.evaluation.evaluation,
                 }
                 for d in daily
             ]
 
             return Response(res_list)
         except:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            error_msg = "予期せぬエラーが起こってる気がするよ。"
+            return Response(error_msg, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class DailyDetail(APIView):
