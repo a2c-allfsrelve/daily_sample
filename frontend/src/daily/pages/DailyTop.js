@@ -22,7 +22,7 @@ export const DailyTop = () => {
         })
         .catch(e => {
             throw new Error(e)
-        })
+        });
     },[])
 
     return(
@@ -37,6 +37,6 @@ export const DailyTop = () => {
             }
             <CategoryList />
         </div>
-    )
+    );
 
 }

@@ -21,7 +21,7 @@ export const DailyContent = (daily) => {
     return(
         <div>
             <Link to={`daily/${daily.id}`}> <h1>{daily.date}</h1> </Link> 
-            <img src={eva}/>
+            <img src={eva} alt="eva"/>
         </div>
     )
 }

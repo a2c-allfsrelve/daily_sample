@@ -6,13 +6,11 @@
     "configurations": [
         {
             "name": "Python: Django",
-            "type": "python",
+            "type": "node",
             "request": "launch",
-            "program": "/Users/Atsushi/daily/backend/daily_api/manage.py",
+            "program": "sever/server.js",
             "console": "integratedTerminal",
-            "args": [
-                "runserver",
-            ],
+            "args": [],
             "django": true
         }
     ]
