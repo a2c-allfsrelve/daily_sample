@@ -43,15 +43,16 @@ INSTALLED_APPS = [
     'daily'
 ]
 
-REST_FRAMEWORK = { 
-    'DEFAULT_PERMISSION_CLASSES': [ #アクセス権限
-        'rest_framework.permissions.AllowAny', #getメソッドだけだし誰にでもアクセス許可
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [  # アクセス権限
+        'rest_framework.permissions.AllowAny',  # getメソッドだけだし誰にでもアクセス許可
     ]
 }
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware', # 異なるオリジンで動作するから、その間のHTTPリクエストを許可する必要がある。
-    'django.middleware.common.CommonMiddleware', # これ
+    # 異なるオリジンで動作するから、その間のHTTPリクエストを許可する必要がある。
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',  # これ
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -70,7 +71,9 @@ ROOT_URLCONF = 'daily_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

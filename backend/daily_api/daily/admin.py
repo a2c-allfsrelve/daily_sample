@@ -5,5 +5,3 @@ from markdownx.admin import MarkdownxModelAdmin #adminページでマークダ�
 admin.site.register(Evaluation)
 admin.site.register(Daily, MarkdownxModelAdmin)
 
-
-
