@@ -38,17 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'markdownx',
     'daily'
 ]
 
-REST_FRAMEWORK = { 
-    'DEFAULT_PERMISSION_CLASSES': [ #アクセス権限
-        'rest_framework.permissions.AllowAny', #getメソッドだけだし誰にでもアクセス許可
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [  # アクセス権限
+        'rest_framework.permissions.AllowAny',  # getメソッドだけだし誰にでもアクセス許可
     ]
 }
 
 MIDDLEWARE = [
+    # 異なるオリジンで動作するから、その間のHTTPリクエストを許可する必要がある。
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',  # これ
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -58,12 +62,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ORIGIN_WHITELIST = (  # これ
+    'http://localhost:3000',
+)
+
 ROOT_URLCONF = 'daily_api.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

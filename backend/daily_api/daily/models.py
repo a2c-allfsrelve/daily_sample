@@ -1,6 +1,8 @@
 from django.db import models
 from markdownx.models import MarkdownxField
 
+
+#DBを定義する
 class Daily(models.Model):
     date = models.DateField()
     univ = MarkdownxField()
