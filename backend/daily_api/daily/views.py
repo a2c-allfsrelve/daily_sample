@@ -1,9 +1,12 @@
 # JSONを返す処理
 
+from asyncio.windows_events import NULL
 from dataclasses import field
+from functools import partial
 from pyexpat import model
+from re import T
 from urllib import response
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, viewsets, filters
@@ -11,6 +14,7 @@ from rest_framework import serializers
 from rest_framework.parsers import JSONParser
 
 from .models import Daily
+from daily.system_settings import messages
 
 
 class ListDaily(APIView):
@@ -33,16 +37,39 @@ class DailyDetail(APIView):
                 daily = Daily.objects.get(id=pk)
                 serializer = DailySerializer(daily)  # 　シリアライザバリ便利
             except:
-                error_msg = "ソンナidノニッポーハナイヨ"
-                return Response(error_msg, status=status.HTTP_404_NOT_FOUND)
+                response = "そんな日報はないよ"
+                return Response(data=response, status=status.HTTP_404_NOT_FOUND)
             return Response(serializer.data)
 
-        except:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as ex:
+            return Response(ex, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    # 特定の日記の編集
+    def patch(self, request, pk, *args, **kwargs):
+        try:
+            try:
+                # 編集する日記を取得
+                instance = get_object_or_404(Daily, pk=pk)
+                # 編集
+                serializer = DailySerializer(
+                    instance=instance, data=request.data, partial=True)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                response = "更新成功"
+                return Response(data=response, status=status.HTTP_200_OK)
+
+            except:
+                # いちおう404エラーも
+                response = "そんな日報はないよ"
+                return Response(data=response, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as ex:
+            return Response(ex, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 # 日記登録
 class RegistDaily(APIView):
+    # DRFのブラウザを表示させるためのダミー
     def get(self, request):
         return Response(data={
             'data': "あいうえお"
